@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Bloqueado</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500&display=swap');
+
+      :root {
+        --bg: #0e0e0e;
+        --text: #e8e8e8;
+        --muted: #555;
+        --accent: #e53e3e;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 24px;
+      }
+
+      /* O símbolo grande de bloqueio */
+      .icon {
+        font-size: 56px;
+        line-height: 1;
+        /* Pulsa suavemente pra chamar atenção sem ser agressivo */
+        animation: pulse 3s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+
+      .title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--accent);
+        letter-spacing: -0.02em;
+      }
+
+      /* Mostra o domínio que foi bloqueado, lido da URL pela query string */
+      .domain {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: var(--muted);
+        background: #1a1a1a;
+        padding: 6px 14px;
+        border-radius: 4px;
+        border: 1px solid #2a2a2a;
+      }
+
+      .message {
+        font-size: 14px;
+        color: var(--muted);
+        max-width: 320px;
+        line-height: 1.6;
+      }
+
+      /* Linha separadora decorativa */
+      .divider {
+        width: 40px;
+        height: 1px;
+        background: #2a2a2a;
+      }
+
+      .back-btn {
+        margin-top: 8px;
+        background: transparent;
+        border: 1px solid #2a2a2a;
+        color: var(--muted);
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: color 0.15s, border-color 0.15s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .back-btn:hover {
+        color: var(--text);
+        border-color: #444;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="icon">⛔</div>
+    <h1 class="title">BLOQUEADO</h1>
+
+    <!-- Mostra o domínio que estava na URL original, via query string -->
+    <div class="domain" id="domain-display">este site</div>
+
+    <div class="divider"></div>
+
+    <p class="message">
+      Você adicionou este site à sua lista de bloqueio.<br>
+      Foco.
+    </p>
+
+    <!-- Botão que leva de volta à página anterior (Google) -->
+    <a href="https://www.google.com" class="back-btn">← Voltar para o Google</a>
+
+    <script>
+      // Lê o parâmetro "from" da query string da URL atual.
+      // O Chrome passa a URL original como parâmetro quando há redirect.
+      // ex: blocked.html?from=youtube.com
+      // Não é crítico — só um detalhe de UX.
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const from = params.get("from");
+        if (from) {
+          document.getElementById("domain-display").textContent = from;
+        }
+      } catch (e) {
+        // Falha silenciosa — a página ainda funciona normalmente
+      }
+    </script>
+
+  </body>
+</html>

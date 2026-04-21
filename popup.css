@@ -1,0 +1,290 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   popup.css
+   Estética: dark/industrial. Preto profundo, vermelho como cor de ação,
+   fonte monospace para os domínios (remete a terminal/técnico).
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Importa a fonte. JetBrains Mono para os domínios, Inter para o resto. */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+/* Variáveis CSS — paleta centralizada.
+   Mudar uma cor aqui reflete em toda a extensão. */
+:root {
+  --bg: #0e0e0e;
+  --surface: #1a1a1a;
+  --border: #2a2a2a;
+  --text: #e8e8e8;
+  --text-muted: #666;
+  --accent: #e53e3e;
+  --accent-hover: #fc5c5c;
+  --accent-muted: rgba(229, 62, 62, 0.12);
+  --green: #38a169;
+  --green-muted: rgba(56, 161, 105, 0.12);
+  --radius: 6px;
+}
+
+/* Reset básico + box-sizing global */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* O body do popup tem largura fixa de 340px.
+   O Chrome respeita esse tamanho para a janela do popup. */
+body {
+  width: 340px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  /* Sem scrollbar no body, o scroll fica só na lista */
+  overflow: hidden;
+}
+
+/* Container principal com padding uniforme */
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* Badge que mostra o número de sites bloqueados */
+.badge {
+  background: var(--accent-muted);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(229, 62, 62, 0.2);
+  min-width: 28px;
+  text-align: center;
+}
+
+/* ─── Input Row ──────────────────────────────────────────────────────────── */
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  padding: 8px 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Estado de foco: borda vermelha suave */
+.input:focus {
+  border-color: var(--accent);
+}
+
+/* Animação de erro: shake + borda vermelha brilhante */
+.input.error {
+  border-color: var(--accent);
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Botão de adicionar (+) */
+.add-btn {
+  width: 34px;
+  height: 34px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: white;
+  font-size: 20px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+  flex-shrink: 0;
+  line-height: 1;
+  padding-bottom: 1px; /* ajuste óptico do "+" */
+}
+
+.add-btn:hover {
+  background: var(--accent-hover);
+}
+
+.add-btn:active {
+  transform: scale(0.93);
+}
+
+/* ─── Lista de Sites ─────────────────────────────────────────────────────── */
+
+/* Scroll interno limitado a ~4 itens visíveis antes de rolar */
+.site-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  /* Scrollbar customizada para manter a estética */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.site-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.site-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+/* Cada item da lista */
+.site-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 7px 10px;
+  /* Animação de entrada */
+  animation: slideIn 0.15s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Nome do domínio em monospace */
+.site-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  color: var(--text);
+  /* Trunca domínios muito longos com reticências */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 240px;
+}
+
+/* Botão × de remover */
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+
+.remove-btn:hover {
+  color: var(--accent);
+}
+
+/* ─── Estado Vazio ───────────────────────────────────────────────────────── */
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 12px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+/* Botão de Pausar/Ativar — ocupa a largura toda */
+.toggle-btn {
+  width: 100%;
+  padding: 8px;
+  background: var(--accent-muted);
+  border: 1px solid rgba(229, 62, 62, 0.25);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
+}
+
+.toggle-btn:hover {
+  background: rgba(229, 62, 62, 0.2);
+}
+
+/* Quando está pausado, muda para verde para indicar "clique pra reativar" */
+.toggle-btn.paused {
+  background: var(--green-muted);
+  border-color: rgba(56, 161, 105, 0.25);
+  color: var(--green);
+}
+
+.toggle-btn.paused:hover {
+  background: rgba(56, 161, 105, 0.2);
+}

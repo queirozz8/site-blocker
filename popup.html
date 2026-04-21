@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bloqueador</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <!-- Container principal. Largura fixa para o popup do Chrome. -->
+    <div class="container">
+
+      <!-- Header: título + contador de sites bloqueados -->
+      <header class="header">
+        <div class="header-left">
+          <div class="logo">⛔</div>
+          <h1 class="title">Bloqueador</h1>
+        </div>
+        <!-- O span#counter é atualizado dinamicamente pelo popup.js -->
+        <span class="badge" id="counter">0</span>
+      </header>
+
+      <!-- Área de input para adicionar um novo site -->
+      <div class="input-row">
+        <input
+          type="text"
+          id="site-input"
+          class="input"
+          placeholder="youtube.com"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="add-btn" class="add-btn" aria-label="Adicionar site">
+          +
+        </button>
+      </div>
+
+      <!-- Lista de sites bloqueados.
+           Os <li> são criados dinamicamente pelo popup.js -->
+      <ul id="site-list" class="site-list"></ul>
+
+      <!-- Estado vazio: aparece quando a lista está vazia.
+           Controlado via display:flex/none pelo popup.js -->
+      <div id="empty-state" class="empty-state">
+        <span>Nenhum site bloqueado ainda.</span>
+      </div>
+
+      <!-- Footer com o botão de pausar/ativar o bloqueio -->
+      <footer class="footer">
+        <button id="toggle-btn" class="toggle-btn">Pausar</button>
+      </footer>
+
+    </div>
+
+    <!-- Script carregado por último para garantir que o DOM já existe -->
+    <script src="popup.js"></script>
+  </body>
+</html>
