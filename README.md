@@ -20,7 +20,7 @@ Como a extensão não está publicada na Chrome Web Store, a instalação é man
 
 **1. Clone o repositório**
 ```bash
-git clone https://github.com/seu-usuario/bloqueador.git
+git clone https://github.com/queirozz8/site-blocker
 ```
 
 **2. Abra a página de extensões do Chrome**
@@ -74,12 +74,3 @@ bloqueador/
 ## Como funciona
 
 O bloqueio usa a API `declarativeNetRequest` do Chrome (Manifest V3), que redireciona requisições de navegação antes mesmo da página carregar. As regras são **dinâmicas** — criadas e removidas em runtime conforme você edita a lista — e a lista em si fica salva no `chrome.storage.local`, persistindo entre sessões.
-
----
-
-## Roadmap
-
-- [ ] Proteção por senha para impedir desativar no impulso
-- [ ] Pomodoro embutido — bloqueia automaticamente durante o foco
-- [ ] Horários de bloqueio (ex: bloquear só das 9h às 18h)
-- [ ] Exportar/importar lista de sites
